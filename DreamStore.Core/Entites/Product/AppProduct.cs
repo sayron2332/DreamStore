@@ -12,7 +12,7 @@ namespace DreamStore.Core.Entites.Product
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public int CategoryId { get; set; }
         public AppCategory Category { get; set; } = null!;
         public ICollection<AppProductAttribute> Values { get; set; } = null!;

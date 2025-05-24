@@ -28,7 +28,7 @@ namespace DreamStore.Core.Services
         public async Task<ServiceResponse> Create(CategoryDto model)
         {
             var category = await GetByName(model.Name);
-            if (category.Success)
+            if (category != null)
             {
                 return new ServiceResponse
                 {
@@ -58,24 +58,9 @@ namespace DreamStore.Core.Services
             }
 
         }
-        public async Task<ServiceResponse> GetByName(string name)
+        public async Task<AppCategory?> GetByName(string name)
         {
-            var result = await _categoryRepo.GetItemBySpec(new CategorySpecification.GetByName(name));
-            if (result == null)
-            {
-                return new ServiceResponse
-                {
-                    Success = false,
-                    Message = "Category not found"
-                };
-            }
-            return new ServiceResponse
-            {
-                Success = true,
-                Payload = new CategoryDto { Id = result.Id, Name = result.Name },
-                Message = "Category found"
-            };
-
+            return await _categoryRepo.GetItemBySpec(new CategorySpecification.GetByName(name)); 
         }
         public async Task<ServiceResponse> DeletebyId(int Id)
         {
@@ -120,23 +105,9 @@ namespace DreamStore.Core.Services
                 Payload = result.Select(a => _mapper.Map<CategoryDto>(a))
             };
         }
-        public async Task<ServiceResponse> GetById(int Id)
+        public async Task<AppCategory?> GetById(int Id)
         {
-            var category = await  _categoryRepo.GetByID(Id);
-            if (category == null)
-            {
-                return new ServiceResponse
-                {
-                    Success = false,
-                    Message = "Category not found"
-                };
-            }
-            return new ServiceResponse
-            {
-                Success = true,
-                Message = "Category found",
-                Payload = new CategoryDto {Id = category.Id,Name = category.Name}
-            };
+            return await _categoryRepo.GetByID(Id);
         }
         public async Task<ServiceResponse> Update(CategoryDto updatedModel)
         {

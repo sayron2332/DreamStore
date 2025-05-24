@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DreamStore.Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController(IAuthService authService, IJwtService jwtService) : ControllerBase
     {

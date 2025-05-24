@@ -38,5 +38,14 @@ namespace DreamStore.Core.Services
 
             return role;
         }
+        public async Task<ServiceResponse> GetAll()
+        {
+            return new ServiceResponse
+            {
+                Success = true,
+                Payload = await _roleRepo.GetAll(),
+                Message = "All roles Load"
+            };
+        }
     }
 }

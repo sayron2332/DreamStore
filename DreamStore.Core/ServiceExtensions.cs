@@ -11,11 +11,14 @@ namespace DreamStore.Core
     {
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
+            services.AddScoped<UserService>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IAttributeService, AttributeService>();
+            
             services.AddMemoryCache();
             return services;
 

@@ -1,4 +1,5 @@
 ﻿using DreamStore.Core.Entites;
+using DreamStore.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace DreamStore.Core.Interfaces
     {
         public Task<AppRole> GetById(int Id);
         public Task<AppRole?> GetRoleByNameAsync(string roleName);
+        public Task<ServiceResponse> GetAll();
     }
 }

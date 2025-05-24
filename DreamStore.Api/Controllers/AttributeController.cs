@@ -1,5 +1,7 @@
-﻿using DreamStore.Core.Dtos.Category;
+﻿using DreamStore.Core.Dtos.Attribute;
+using DreamStore.Core.Dtos.Category;
 using DreamStore.Core.Interfaces;
+using DreamStore.Core.Services;
 using DreamStore.Core.Validation.Attribute;
 using DreamStore.Core.Validation.Category;
 using FluentValidation;
@@ -13,19 +15,18 @@ namespace DreamStore.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "admin")]
-    public class CategoryController(ICategoryService categoryService) : ControllerBase
+    public class AttributeController(IAttributeService attributeService) : ControllerBase
     {
-        private readonly ICategoryService _categoryService = categoryService;
+        private readonly IAttributeService _attributeService = attributeService;
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody]CategoryDto category)
-        { 
-            CategoryValidation validator = new CategoryValidation();
-            ValidationResult validationResult = await validator.ValidateAsync(category);
+        public async Task<IActionResult> Create([FromBody] AttributeDto attribute)
+        {
+            AttributeValidation validator = new AttributeValidation();
+            ValidationResult validationResult = await validator.ValidateAsync(attribute);
             if (validationResult.IsValid)
             {
-                var result = await _categoryService.Create(category);
+                var result = await _attributeService.Create(attribute);
                 if (result.Success)
                 {
                     return Ok(result);
@@ -37,7 +38,7 @@ namespace DreamStore.Api.Controllers
         [HttpDelete("delete/{Id}")]
         public async Task<IActionResult> Delete(int Id)
         {
-            var result = await _categoryService.DeletebyId(Id);
+            var result = await _attributeService.DeletebyId(Id);
             if (result.Success)
             {
                 return Ok(result);
@@ -49,7 +50,7 @@ namespace DreamStore.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Get(int Id)
         {
-            var result = await _categoryService.GetById(Id);
+            var result = await _attributeService.GetById(Id);
             if (result != null)
             {
                 return Ok(result);
@@ -61,7 +62,7 @@ namespace DreamStore.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetAll(int pageIndex = 1)
         {
-            var result = await _categoryService.GetAll(pageIndex);
+            var result = await _attributeService.GetAll(pageIndex);
             if (result.Success)
             {
                 return Ok(result);
@@ -70,14 +71,14 @@ namespace DreamStore.Api.Controllers
         }
 
         [HttpPost("update/{Id}")]
-        public async Task<IActionResult> Update(int Id, [FromBody]CategoryDto category)
+        public async Task<IActionResult> Update(int Id, [FromBody] AttributeDto attribute)
         {
-            CategoryValidation validator = new CategoryValidation();
-            ValidationResult validationResult = await validator.ValidateAsync(category);
-            if (validationResult.IsValid)  
+            AttributeValidation validator = new AttributeValidation();
+            ValidationResult validationResult = await validator.ValidateAsync(attribute);
+            if (validationResult.IsValid)
             {
-                category.Id = Id;
-                var result = await _categoryService.Update(category);
+                attribute.Id = Id;
+                var result = await _attributeService.Update(attribute);
                 if (result.Success)
                 {
                     return Ok(result);
@@ -85,7 +86,7 @@ namespace DreamStore.Api.Controllers
                 return BadRequest(result);
             }
             return BadRequest(validationResult.Errors);
-        }
 
+        }
     }
 }

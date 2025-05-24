@@ -14,8 +14,8 @@ namespace DreamStore.Core.Interfaces
         public Task<ServiceResponse> Create(CategoryDto model);
         public Task<ServiceResponse> Update(CategoryDto updatedModel);
         public Task<ServiceResponse> DeletebyId(int Id);
-        public Task<ServiceResponse> GetById(int Id);
-        public Task<ServiceResponse> GetByName(string name);
+        public Task<AppCategory?> GetById(int Id);
+        public Task<AppCategory?> GetByName(string name);
         public Task<ServiceResponse> GetAll(int pageIndex);
 
     }

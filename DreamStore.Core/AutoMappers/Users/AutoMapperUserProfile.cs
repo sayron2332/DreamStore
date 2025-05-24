@@ -13,7 +13,9 @@ namespace DreamStore.Core.AutoMappers.Users
     {
         public AutoMapperUserProfile()
         {
-            CreateMap<SignUpUserDto, AppUser>();
+            CreateMap<CreateUserDto, AppUser>();
+            CreateMap<AppUser, UserDto>();
+            CreateMap<SignUpUserDto, CreateUserDto>();
         }
     }
 }

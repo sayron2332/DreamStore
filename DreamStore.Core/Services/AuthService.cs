@@ -78,30 +78,15 @@ namespace DreamStore.Core.Services
                     Message = "User Already exist"
                 };
             }
-
-            AppUser newUser = _mapper.Map<AppUser>(model);
-            newUser.PasswordHash =
-                new PasswordHasher<AppUser>().HashPassword(newUser, model.Password);
+            var mappedUser = _mapper.Map<CreateUserDto>(model);
 
             var role = await _roleService.GetRoleByNameAsync("user");
-            if (role != null) 
+            if (role != null)
             {
-                newUser.RoleId = role.Id;
+                mappedUser.RoleId = role.Id;
             }
-
-          
-            ServiceResponse result = await _userService.Create(newUser);
-            if (result.Success)
-            {
-                return new ServiceResponse
-                {
-                    Success = true,
-                    Message = "User succsesfely created"
-                };
-            }
-
+            ServiceResponse result = await _userService.Create(mappedUser);
             return result;
-
         }
     }
 }

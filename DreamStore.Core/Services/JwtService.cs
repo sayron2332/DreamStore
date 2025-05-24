@@ -25,11 +25,11 @@ namespace DreamStore.Core.Services
         private readonly IConfiguration _configuration;
         private readonly IRepository<RefreshToken> _tokenRepo;
         private readonly ILogger<JwtService> _logger;
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
         private readonly IRoleService _roleService;
 
         public JwtService( IConfiguration configuration, ILogger<JwtService> logger,
-            IRepository<RefreshToken> repository, IUserService userService, IRoleService roleService)
+            IRepository<RefreshToken> repository, UserService userService, IRoleService roleService)
         {
 
             _configuration = configuration;
@@ -59,7 +59,7 @@ namespace DreamStore.Core.Services
             
             if (refreshToken != null && refreshToken.ExpireTime >= DateTime.UtcNow)
             {
-                var user = await _userService.GetById(refreshToken.UserId);
+                var user = await _userService.GetAppUserById(refreshToken.UserId);
                 if (user != null)
                 {
                     return new ServiceResponse
