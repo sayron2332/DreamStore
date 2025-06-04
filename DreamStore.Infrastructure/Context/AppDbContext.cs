@@ -1,4 +1,5 @@
 ﻿using DreamStore.Core.Entites;
+using DreamStore.Core.Entites.Order;
 using DreamStore.Core.Entites.Product;
 using DreamStore.Core.Entites.Token;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -37,5 +38,7 @@ namespace DreamStore.Infrastructure.Context
         public DbSet<AppProductAttribute> AppProductAttributes { get; set; }
         public DbSet<AppProduct> AppProducts { get; set; }
         public DbSet<AppCategory> AppCategory { get; set; }
+        public DbSet<AppOrderItem> AppOrderItems { get; set; }
+        public DbSet<AppOrder> AppOrders { get; set; }
     }
 }

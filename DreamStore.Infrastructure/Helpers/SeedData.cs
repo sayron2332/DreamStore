@@ -48,9 +48,9 @@ namespace DreamStore.Infrastructure
                     {
                         Name = "Nazar",
                         Surname = "Kurylovych",
-                        Email = "xvtnxjgbyv@gmail.com",
+                        Email = "admin@example.com",
                         PhoneNumber = "+380959348105",
-                        PasswordHash = hasher.HashPassword(null!, "Sayron561"),
+                        PasswordHash = hasher.HashPassword(null!, "Admin123!"),
                         RoleId = AdminRole!.Id
                     };
 

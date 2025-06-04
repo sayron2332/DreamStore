@@ -20,9 +20,9 @@ namespace DreamStore.Core.Services
             _cache = cache;
             _roleRepo = roleRepo;
         }
-        public Task<AppRole> GetById(int Id)
+        public async Task<AppRole?> GetById(int Id)
         {
-            return _roleRepo.GetByID(Id)!;
+            return await _roleRepo.GetByID(Id);
         }
         public async Task<AppRole?> GetRoleByNameAsync(string roleName)
         {

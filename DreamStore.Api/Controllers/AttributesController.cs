@@ -15,11 +15,12 @@ namespace DreamStore.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AttributeController(IAttributeService attributeService) : ControllerBase
+    [Authorize(Roles ="admin")]
+    public class AttributesController(IAttributeService attributeService) : ControllerBase
     {
         private readonly IAttributeService _attributeService = attributeService;
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] AttributeDto attribute)
         {
             AttributeValidation validator = new AttributeValidation();
@@ -35,10 +36,10 @@ namespace DreamStore.Api.Controllers
             }
             return BadRequest(validationResult.Errors);
         }
-        [HttpDelete("delete/{Id}")]
-        public async Task<IActionResult> Delete(int Id)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var result = await _attributeService.DeletebyId(Id);
+            var result = await _attributeService.DeletebyId(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -46,11 +47,11 @@ namespace DreamStore.Api.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{id:int}")]
         [AllowAnonymous]
-        public async Task<IActionResult> Get(int Id)
+        public async Task<IActionResult> Get(int id)
         {
-            var result = await _attributeService.GetById(Id);
+            var result = await _attributeService.GetById(id);
             if (result != null)
             {
                 return Ok(result);
@@ -58,7 +59,7 @@ namespace DreamStore.Api.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("get-all")]
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAll(int pageIndex = 1)
         {
@@ -70,14 +71,14 @@ namespace DreamStore.Api.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("update/{Id}")]
-        public async Task<IActionResult> Update(int Id, [FromBody] AttributeDto attribute)
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] AttributeDto attribute)
         {
             AttributeValidation validator = new AttributeValidation();
             ValidationResult validationResult = await validator.ValidateAsync(attribute);
             if (validationResult.IsValid)
             {
-                attribute.Id = Id;
+                attribute.Id = id;
                 var result = await _attributeService.Update(attribute);
                 if (result.Success)
                 {

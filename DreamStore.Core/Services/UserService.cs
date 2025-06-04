@@ -179,7 +179,15 @@ namespace DreamStore.Core.Services
                 user.ImageName = fileName;
             }
             var currentRole = await _roleService.GetById(user.RoleId);
-            if (updateUser.RoleId != currentRole.Id)
+            if (currentRole == null)
+            {
+                return new ServiceResponse
+                {
+                    Success = false,
+                    Message = "this role now exist in database or Id incorect",
+                };
+            }
+            if (updateUser.RoleId != currentRole?.Id)
             {
                 user.RoleId = updateUser.Id;
             }

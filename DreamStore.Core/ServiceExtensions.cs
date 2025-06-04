@@ -1,4 +1,5 @@
 ﻿using DreamStore.Core.AutoMappers.Categories;
+using DreamStore.Core.AutoMappers.Products;
 using DreamStore.Core.AutoMappers.Users;
 using DreamStore.Core.Interfaces;
 using DreamStore.Core.Services;
@@ -18,7 +19,8 @@ namespace DreamStore.Core
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAttributeService, AttributeService>();
-            
+            services.AddScoped<IProductService, ProductService>();
+          
             services.AddMemoryCache();
             return services;
 
@@ -28,7 +30,8 @@ namespace DreamStore.Core
         {
             services.AddAutoMapper(typeof(AutoMapperUserProfile));
             services.AddAutoMapper(typeof(AutoMapperCategoryProfile));
-            
+            services.AddAutoMapper(typeof(AutoMapperProductProfile));
+
             return services;
         }
      

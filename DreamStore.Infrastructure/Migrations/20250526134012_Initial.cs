@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DreamStore.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,6 +35,21 @@ namespace DreamStore.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppCategory", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppOrders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,7 +88,9 @@ namespace DreamStore.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,6 +99,28 @@ namespace DreamStore.Infrastructure.Migrations
                         name: "FK_AppProducts_AppCategory_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "AppCategory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppOrderItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AppOrderId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppOrderItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppOrderItems_AppOrders_AppOrderId",
+                        column: x => x.AppOrderId,
+                        principalTable: "AppOrders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -139,6 +178,11 @@ namespace DreamStore.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AppOrderItems_AppOrderId",
+                table: "AppOrderItems",
+                column: "AppOrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AppProductAttributes_AttributeId",
                 table: "AppProductAttributes",
                 column: "AttributeId");
@@ -175,6 +219,9 @@ namespace DreamStore.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AppOrderItems");
+
+            migrationBuilder.DropTable(
                 name: "AppProductAttributes");
 
             migrationBuilder.DropTable(
@@ -182,6 +229,9 @@ namespace DreamStore.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AppUsers");
+
+            migrationBuilder.DropTable(
+                name: "AppOrders");
 
             migrationBuilder.DropTable(
                 name: "AppAttribute");

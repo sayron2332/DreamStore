@@ -14,11 +14,11 @@ namespace DreamStore.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "admin")]
-    public class CategoryController(ICategoryService categoryService) : ControllerBase
+    public class CategoriesController(ICategoryService categoryService) : ControllerBase
     {
         private readonly ICategoryService _categoryService = categoryService;
 
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody]CategoryDto category)
         { 
             CategoryValidation validator = new CategoryValidation();
@@ -34,7 +34,7 @@ namespace DreamStore.Api.Controllers
             }
             return BadRequest(validationResult.Errors);
         }
-        [HttpDelete("delete/{Id}")]
+        [HttpDelete("{Id:int}")]
         public async Task<IActionResult> Delete(int Id)
         {
             var result = await _categoryService.DeletebyId(Id);
@@ -45,7 +45,7 @@ namespace DreamStore.Api.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id:int}")]
         [AllowAnonymous]
         public async Task<IActionResult> Get(int Id)
         {
@@ -57,7 +57,7 @@ namespace DreamStore.Api.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("get-all")]
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAll(int pageIndex = 1)
         {
@@ -69,7 +69,7 @@ namespace DreamStore.Api.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("update/{Id}")]
+        [HttpPut("{Id:int}")]
         public async Task<IActionResult> Update(int Id, [FromBody]CategoryDto category)
         {
             CategoryValidation validator = new CategoryValidation();

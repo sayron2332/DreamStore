@@ -100,6 +100,55 @@ namespace DreamStore.Infrastructure.Migrations
                     b.ToTable("AppUsers");
                 });
 
+            modelBuilder.Entity("DreamStore.Core.Entites.Order.AppOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppOrders");
+                });
+
+            modelBuilder.Entity("DreamStore.Core.Entites.Order.AppOrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppOrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppOrderId");
+
+                    b.ToTable("AppOrderItems");
+                });
+
             modelBuilder.Entity("DreamStore.Core.Entites.Product.AppAttribute", b =>
                 {
                     b.Property<int>("Id")
@@ -127,6 +176,14 @@ namespace DreamStore.Infrastructure.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -206,6 +263,17 @@ namespace DreamStore.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("DreamStore.Core.Entites.Order.AppOrderItem", b =>
+                {
+                    b.HasOne("DreamStore.Core.Entites.Order.AppOrder", "AppOrder")
+                        .WithMany("Items")
+                        .HasForeignKey("AppOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppOrder");
+                });
+
             modelBuilder.Entity("DreamStore.Core.Entites.Product.AppProduct", b =>
                 {
                     b.HasOne("DreamStore.Core.Entites.AppCategory", "Category")
@@ -244,6 +312,11 @@ namespace DreamStore.Infrastructure.Migrations
             modelBuilder.Entity("DreamStore.Core.Entites.AppRole", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("DreamStore.Core.Entites.Order.AppOrder", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("DreamStore.Core.Entites.Product.AppAttribute", b =>
