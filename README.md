@@ -13,16 +13,8 @@ Visual Studio 2022 or Visual Studio Code (with the C# extension)
 git clone https://github.com/sayron2332/DreamStore
 cd DreamStore
 
-add connString to appseting json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;Database=MyAppDb;Trusted_Connection=True;TrustServerCertificate=True;"
-}
-
-Make sure you have the Entity Framework CLI installed:
-dotnet tool install --global dotnet-ef
-
 Then run the following command to apply migrations and create the database:
-dotnet ef database update
+dotnet ef database update --project DreamStore.Infrastructure --startup-project DreamStore.Api
 
 Run the Project
 You can now run the project using:
