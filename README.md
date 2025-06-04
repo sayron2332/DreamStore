@@ -16,11 +16,12 @@ cd DreamStore
 Then run the following command to apply migrations and create the database:
 dotnet ef database update --project DreamStore.Infrastructure --startup-project DreamStore.Api
 
-Run the Project
-You can now run the project using:
+build the Project Api project
+cd DreamStore.Api 
+dotnet build
 
+and than you can the project 
 dotnet run
-Or press F5 in Visual Studio.
 
 🔑 Admin Login Credentials
 By default, the project seeds an admin user when it starts:
