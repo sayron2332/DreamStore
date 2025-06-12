@@ -19,6 +19,7 @@ namespace DreamStore.Core.Dtos.Product
         public string Slug => GenerateSlug(Name);
         public ICollection<AttributeDto> Attribute { get; set; } = null!;
         public CategoryDto Category { get; set; } = null!;
+        public string ImageName { get; set; } = string.Empty;
         private string GenerateSlug(string name)
         {
             name = name.ToLower().Replace(" ", "-");

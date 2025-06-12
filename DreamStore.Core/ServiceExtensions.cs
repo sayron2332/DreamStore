@@ -3,6 +3,12 @@ using DreamStore.Core.AutoMappers.Products;
 using DreamStore.Core.AutoMappers.Users;
 using DreamStore.Core.Interfaces;
 using DreamStore.Core.Services;
+using DreamStore.Core.Validation.Attribute;
+using DreamStore.Core.Validation.Category;
+using DreamStore.Core.Validation.Product;
+using DreamStore.Core.Validation.User;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -31,9 +37,10 @@ namespace DreamStore.Core
             services.AddAutoMapper(typeof(AutoMapperUserProfile));
             services.AddAutoMapper(typeof(AutoMapperCategoryProfile));
             services.AddAutoMapper(typeof(AutoMapperProductProfile));
-
+       
             return services;
         }
+      
      
     }
 }

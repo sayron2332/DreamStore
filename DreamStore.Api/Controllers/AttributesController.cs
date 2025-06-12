@@ -23,18 +23,14 @@ namespace DreamStore.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AttributeDto attribute)
         {
-            AttributeValidation validator = new AttributeValidation();
-            ValidationResult validationResult = await validator.ValidateAsync(attribute);
-            if (validationResult.IsValid)
-            {
+          
                 var result = await _attributeService.Create(attribute);
                 if (result.Success)
                 {
                     return Ok(result);
                 }
                 return BadRequest(result);
-            }
-            return BadRequest(validationResult.Errors);
+         
         }
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
@@ -66,7 +62,7 @@ namespace DreamStore.Api.Controllers
             var result = await _attributeService.GetAll(pageIndex);
             if (result.Success)
             {
-                return Ok(result);
+                return Ok(result.Payload);
             }
             return BadRequest(result);
         }
@@ -74,20 +70,13 @@ namespace DreamStore.Api.Controllers
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] AttributeDto attribute)
         {
-            AttributeValidation validator = new AttributeValidation();
-            ValidationResult validationResult = await validator.ValidateAsync(attribute);
-            if (validationResult.IsValid)
-            {
-                attribute.Id = id;
-                var result = await _attributeService.Update(attribute);
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return BadRequest(validationResult.Errors);
-
+             attribute.Id = id;
+             var result = await _attributeService.Update(attribute);
+             if (result.Success)
+             {
+                 return Ok(result);
+             }
+             return BadRequest(result);
         }
     }
 }

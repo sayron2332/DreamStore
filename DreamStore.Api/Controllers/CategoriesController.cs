@@ -21,18 +21,14 @@ namespace DreamStore.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]CategoryDto category)
         { 
-            CategoryValidation validator = new CategoryValidation();
-            ValidationResult validationResult = await validator.ValidateAsync(category);
-            if (validationResult.IsValid)
-            {
-                var result = await _categoryService.Create(category);
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return BadRequest(validationResult.Errors);
+         
+             var result = await _categoryService.Create(category);
+             if (result.Success)
+             {
+                 return Ok(result);
+             }
+             return BadRequest(result);
+         
         }
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> Delete(int Id)
@@ -64,7 +60,7 @@ namespace DreamStore.Api.Controllers
             var result = await _categoryService.GetAll(pageIndex);
             if (result.Success)
             {
-                return Ok(result);
+                return Ok(result.Payload);
             }
             return BadRequest(result);
         }
@@ -72,10 +68,7 @@ namespace DreamStore.Api.Controllers
         [HttpPut("{Id:int}")]
         public async Task<IActionResult> Update(int Id, [FromBody]CategoryDto category)
         {
-            CategoryValidation validator = new CategoryValidation();
-            ValidationResult validationResult = await validator.ValidateAsync(category);
-            if (validationResult.IsValid)  
-            {
+           
                 category.Id = Id;
                 var result = await _categoryService.Update(category);
                 if (result.Success)
@@ -83,8 +76,7 @@ namespace DreamStore.Api.Controllers
                     return Ok(result);
                 }
                 return BadRequest(result);
-            }
-            return BadRequest(validationResult.Errors);
+         
         }
 
     }

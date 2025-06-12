@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using DreamStore.Core.Validation.Attribute;
+using DreamStore.Core.Validation.Category;
+using DreamStore.Core.Validation.Product;
+using DreamStore.Core.Validation.User;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Runtime.CompilerServices;
@@ -8,6 +14,12 @@ namespace DreamStore.Api
 {
     public static class ServiceExtensions
     {
+        public static IServiceCollection AddAutoFluentValidation(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssembly(typeof(CreateUpdateProductValidation).Assembly);
+            return services;
+        }
         public static IServiceCollection LowerCaseRoutes(this IServiceCollection services)
         {
             services.Configure<RouteOptions>(options =>

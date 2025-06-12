@@ -18,35 +18,23 @@ namespace DreamStore.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> SignInUser(SignInUserDto model)
         { 
-           SignInUserValidation validations = new SignInUserValidation();
-           ValidationResult validationResult = await validations.ValidateAsync(model);
-           if (validationResult.IsValid)
-           {
                var result = await _authService.LoginUser(model);
                if (result.Success)
                {
                    return Ok(result);
                }
                return BadRequest(result);
-           }
-           return BadRequest(validationResult.Errors);
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> SignUpUser(SignUpUserDto model)
         {
-            SignUpUserValidation validations = new SignUpUserValidation();
-            ValidationResult validationResult = await validations.ValidateAsync(model);
-            if (validationResult.IsValid)
-            {
-                var result = await _authService.RegisterUser(model);
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return BadRequest(validationResult.Errors);
+              var result = await _authService.RegisterUser(model);
+              if (result.Success)
+              {
+                  return Ok(result);
+              }
+              return BadRequest(result);
         }
 
         [HttpPost("refresh-tokens")]

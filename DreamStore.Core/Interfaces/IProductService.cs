@@ -10,8 +10,8 @@ namespace DreamStore.Core.Interfaces
 {
     public interface IProductService
     {
-        public Task<ServiceResponse> Create(CreateProductDto model);
-        public Task<ServiceResponse> Update();
+        public Task<ServiceResponse> Create(CreateUpdateProductDto model);
+        public Task<ServiceResponse> Update(CreateUpdateProductDto model);
         public Task<ProductDto?> GetById(int Id);
         public Task<ServiceResponse> DeleteById(int Id);
         public Task<ServiceResponse> GetAll(int pageIndex);

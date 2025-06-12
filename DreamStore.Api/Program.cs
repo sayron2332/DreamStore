@@ -5,6 +5,10 @@ using DreamStore.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+  
+
+//add  Auto validation for dtos 
+builder.Services.AddAutoFluentValidation();
 
 //add  lowerCase for routes
 builder.Services.LowerCaseRoutes();

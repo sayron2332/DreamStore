@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DreamStore.Core.Dtos.Product
 {
-    public class CreateProductDto
+    public class CreateUpdateProductDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

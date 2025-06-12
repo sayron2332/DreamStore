@@ -112,6 +112,22 @@ namespace DreamStore.Core.Services
         }
         public async Task<ServiceResponse> DeleteById(int Id)
         {
+            AppUser? user = await _userRepo.GetByID(Id);
+            if (user is null)
+            {
+                return new ServiceResponse()
+                {
+                    Success = false,
+                    Message = "User not found some problem with Id",
+                };
+            }
+
+            if (user.ImageName != "default.png")
+            {
+                var userImageFolder = _config.GetValue<string>("ImageSettings:UserImage");
+                string image = Path.Combine(Directory.GetCurrentDirectory(), userImageFolder!, user.ImageName);
+                File.Delete(image);
+            }
             try
             {
                 await _userRepo.Delete(Id);

@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace DreamStore.Core.Validation.Product
 {
-    public class CreateProductValidation : AbstractValidator<CreateProductDto>
+    public class CreateUpdateProductValidation : AbstractValidator<CreateUpdateProductDto>
     {
-        public CreateProductValidation()
+        public CreateUpdateProductValidation()
         {
             RuleFor(a => a.Name)
-                .NotNull().NotEmpty().WithMessage("Ім'я не може бути пустим")
-                .MaximumLength(50).WithMessage("Максимальна довжина ім'я 50 символів")
-                .MinimumLength(3).WithMessage("Мінімальна довжина ім'я 3 символа");
+           .MaximumLength(50).WithMessage("Максимальна довжина ім'я 50 символів")
+           .MinimumLength(3).WithMessage("Мінімальна довжина ім'я 3 символа");
 
             RuleFor(x => x.Description)
            .NotNull().NotEmpty().WithMessage("Опис не може бути пустим")
@@ -23,10 +22,11 @@ namespace DreamStore.Core.Validation.Product
            .MinimumLength(4).WithMessage("мінімальна довжина Опису 4 символа");
 
             RuleFor(x => x.Price)
-           .NotNull().NotEmpty().WithMessage("Не може бути пустим")
+           .NotNull().NotEmpty().WithMessage("Ціна Не може бути пустим")
            .LessThan(2147483647).WithMessage("Максимальна ціна");
-         
 
+            RuleFor(x => x.CategoryId)
+           .NotNull().NotEmpty().WithMessage("Категорія Не може бути пуста");
         }
     }
 }

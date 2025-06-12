@@ -15,20 +15,16 @@ namespace DreamStore.Api.Controllers
     {
         private readonly IProductService _productService = productService;
         [HttpPost]
-        public async Task<IActionResult> Create(CreateProductDto model)
+        public async Task<IActionResult> Create([FromForm]CreateUpdateProductDto model)
         { 
-            CreateProductValidation validations = new CreateProductValidation();
-            ValidationResult validationResult = await validations.ValidateAsync(model);
-            if (validationResult.IsValid)
-            {
-                var result = await _productService.Create(model);
-                if (result.Success)
-                { 
-                    return Ok(result);
-                }
-                return BadRequest(result);
-            }
-            return BadRequest(validationResult.Errors);
+          
+             var result = await _productService.Create(model);
+             if (result.Success)
+             { 
+                 return Ok(result);
+             }
+             return BadRequest(result);
+         
         }
 
         [HttpGet("{id:int}")]
@@ -49,9 +45,38 @@ namespace DreamStore.Api.Controllers
             var result = await _productService.GetAll(pageIndex);
             if (result.Success)
             {
-                return Ok(result);
+                return Ok(result.Payload);
             }
             return NotFound(result);
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromForm]CreateUpdateProductDto product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            product.Id = id;
+            var result = await _productService.Update(product);
+            if (result.Success)
+            {
+                return Ok(result.Message);
+            }
+            return BadRequest(result);
+
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        { 
+            var result = await _productService.DeleteById(id);
+            if (result.Success)
+            {
+                return Ok(result.Message);
+            }
+            return BadRequest(result);
+        }
+
     }
 }

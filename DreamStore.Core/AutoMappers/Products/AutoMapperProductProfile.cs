@@ -13,7 +13,7 @@ namespace DreamStore.Core.AutoMappers.Products
     {
         public AutoMapperProductProfile()
         {
-            CreateMap<CreateProductDto, AppProduct>();
+            CreateMap<CreateUpdateProductDto, AppProduct>();
             CreateMap<AppProduct, ProductDto>().ReverseMap();
         }
     }
